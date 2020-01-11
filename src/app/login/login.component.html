@@ -1,0 +1,43 @@
+<mat-card class="card">
+
+    <h3 style="text-align: center;">LOGIN</h3>
+
+
+  <mat-card-content>
+    <form [formGroup]="logInForm">
+    <mat-form-field appearance="outline">
+      <mat-label>User Name</mat-label>
+      <input matInput placeholder="User Name" formControlName="userName">
+      <mat-error *ngIf="logInForm.controls['userName'].errors?.required">This field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" type="password" formControlName="password">
+      <mat-error *ngIf="logInForm.controls['password'].errors?.required">This field is required</mat-error>
+    </mat-form-field>
+  </form>
+  <button mat-flat-button color="primary" [disabled]="!logInForm.valid" (click)="logIn(logInForm.value)">LogIn</button>
+  <div style="color:red;">{{loginFail}}</div>
+</mat-card-content>
+
+
+</mat-card>
+<mat-card class="card" style="margin-top: 25px;">
+  <mat-card-content>
+    <h3 style="color: blueviolet;">Login Credential</h3>
+    <div style="padding: 5px; background-color: cadetblue;">
+    <h3 style="margin-block-end: 0.5em;">Super user</h3>
+    <ul>
+      <li>Username : <span>super1</span></li>
+      <li>Password : <span>super1</span></li>
+    </ul>
+  </div>
+  <div style="padding: 5px; background-color: rgb(131, 105, 223);">
+    <h3 style="margin-block-end: 0.5em;">Duper user</h3>
+    <ul>
+      <li>Username : <span>duper1</span></li>
+      <li>Password : <span>duper1</span></li>
+    </ul>
+  </div>
+  </mat-card-content>
+</mat-card>

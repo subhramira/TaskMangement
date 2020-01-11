@@ -1,0 +1,39 @@
+<h3>{{task !== undefined ? "Update Task" : "Create Task"}}</h3>
+<form [formGroup]="taskForm">
+  <mat-form-field>
+    <input matInput placeholder="Task Name" formControlName="name">
+    <mat-error *ngIf="taskForm.controls['name'].errors?.required">This field is required</mat-error>
+    <mat-error *ngIf="taskForm.controls['name'].errors?.maxlength">Maximum 30 charector allowed</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Description" formControlName="description"></textarea>
+    <mat-error *ngIf="taskForm.controls['description'].errors?.required">This field is required</mat-error>
+    <mat-error *ngIf="taskForm.controls['description'].errors?.maxlength">Maximum 150 charector allowed</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="User" formControlName="assignedTo">
+      <mat-option *ngFor="let user of data.users" [value]="user.userId">{{user.name}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="taskForm.controls['assignedTo'].errors?.required">This field is required</mat-error>
+  </mat-form-field>
+
+    <mat-form-field *ngIf="task !== undefined">
+      <mat-select placeholder="Status"  formControlName="status">
+        <mat-option value="NEW">NEW</mat-option>
+        <mat-option value="IN_PROGRESS">IN_PROGRESS</mat-option>
+        <mat-option value="COMPLETED">COMPLETED</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+<input [owlDateTime]="dt1" matInput (keydown)="false" [owlDateTimeTrigger]="dt1" placeholder="Due Date" formControlName="dueDate">
+<owl-date-time #dt1></owl-date-time>
+<mat-error *ngIf="taskForm.controls['dueDate'].errors?.required">This field is required</mat-error>
+</mat-form-field>
+<div style="text-align: right;">
+  <button  mat-flat-button color="primary" [disabled]="!taskForm.valid" (click)="createTask(taskForm.value)">{{task !== undefined ? "Update" : "Create"}}</button>
+</div>
+
+</form>
+

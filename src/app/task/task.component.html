@@ -1,0 +1,72 @@
+<h3 style="background-color: azure;color: darkorchid;">
+  Welcome <span style="color: navy;">{{logedUser.name}}</span>.
+   You are a <span style="color: navy;">{{logedUser.role}}</span> user
+   <button mat-flat-button color="primary" (click)="logOut()">Logout</button></h3>
+<div style="width: 900px; margin: auto;">
+<div style="display: flex;justify-content: space-between; ">
+    <div style="color: darkcyan;">
+      Showing <span style="color: darkviolet;">{{displayData.length}}</span>of <span style="color: darkviolet;">{{tasks.length}}</span> task
+    </div>
+    <div>
+      <button *ngIf="logedUser.roleId == 1" mat-flat-button color="primary"  (click)="createTask()">Create Task</button>
+    </div>
+</div>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <!-- <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container> -->
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef > Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="duedate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Due date </th>
+      <td mat-cell *matCellDef="let element"> {{element.dueDate | date : 'MMM d, y, h:mm a'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef > Action</th>
+      <td mat-cell *matCellDef="let element; let i = index;">
+        <mat-form-field>
+          <!-- <mat-label>Select an option</mat-label> -->
+          <mat-select [value]="element.status" (selectionChange)="changeStatus(i,$event)">
+            <mat-option value="NEW">NEW</mat-option>
+            <mat-option value="IN_PROGRESS">IN_PROGRESS</mat-option>
+            <mat-option value="COMPLETED">COMPLETED</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="update" *ngIf="logedUser.roleId === 2">
+      <th mat-header-cell *matHeaderCellDef > Update </th>
+      <td mat-cell *matCellDef="let element; let i = index;" >
+        <mat-icon (click)="editTask(i, element)">edit</mat-icon>
+        <mat-icon style="margin-left: 10px;" [swal]="{ title: 'Confirm Delete ?', showConfirmButton: true, showCancelButton: true }"
+        (confirm)="deleteTask(i)"
+        >delete</mat-icon>
+
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+</div>
+<div style="text-align: center;">
+  <button *ngIf="displayData.length < tasks.length" mat-flat-button color="primary" (click)="showMore()">Show more</button>
+</div>
+</div>
